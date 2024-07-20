@@ -1,8 +1,8 @@
 ---
+import MeetingGist from "@/components/MeetingGist.astro";
 import Nav from "@/components/Nav.astro";
-import Layout from "@/layouts/Layout.astro";
-
 import meetings from "@/data/26/data.json";
+import Layout from "@/layouts/Layout.astro";
 import { ExternalLink } from "lucide-astro";
 
 const latest3Meetings = meetings.slice(0, 3);
@@ -25,40 +25,16 @@ const latest3Meetings = meetings.slice(0, 3);
       <h2 class="text-header mb-10">การประชุมล่าสุด</h2>
       {
         latest3Meetings.map((meeting) => (
-          <article class="flex flex-col gap-5 rounded-5 border border-blue p-10">
-            <header class="flex items-center gap-10">
-              <h3 class="flex-1 text-header text-xl/1.5">
-                {meeting.id}
-                {meeting.category !== "หน้าหลัก" && (
-                  <>
-                    — <span>{meeting.no}</span>
-                  </>
-                )}
-              </h3>
-              <a
-                class="btn btn-primary btn-outline btn-sm text-sm/1 inline-flex items-center gap-5"
-                href={`/26/${meeting.id}`}
-              >
-                อ่านรายงานเต็ม
-                <ExternalLink size={16} />
-              </a>
-            </header>
-            {meeting.title.length > 0 && (
-							<hr class="border-t-blue border-dashed mt-5" />
-              <p
-                class:list={[
-                  "whitespace-pre-line text-sm/1.6 tracking-[0.1px]",
-                  { "preview-text": meeting.title.length > 2 },
-                ]}
-              >
-                <Fragment set:html={meeting.title.slice(0, 6).join("\n")} />
-              </p>
-            )}
-          </article>
+          <MeetingGist
+            id={meeting.id}
+            category={meeting.category}
+            no={meeting.no}
+            title={meeting.title}
+          />
         ))
       }
-      <a class="btn btn-primary text-base/1 mt-10" href={`/26`}>
-        ดูรายงานการประชุมสภาฯ ชุดที่ 26 (เศรษฐา)
+      <a class="btn btn-primary text-base/1 mt-10" href="/26">
+        ดูรายงานการประชุมเพิ่มเติม
         <ExternalLink size={16} />
       </a>
     </section>
@@ -87,11 +63,3 @@ const latest3Meetings = meetings.slice(0, 3);
     </section>
   </main>
 </Layout>
-
-<style>
-  .preview-text::after {
-    content: "";
-    height: calc(14px * 1.6 * 2); /* 2 lines */
-    @apply absolute inset-x-0 bottom-0 bg-gradient-to-t from-gray to-gray/0;
-  }
-</style>
