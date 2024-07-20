@@ -22,7 +22,7 @@ const latest3Meetings = meetings.slice(0, 3);
   </div>
   <main>
     <section class="flex flex-col gap-10 mx-auto p-20 py-50 container">
-      <h2 class="text-header mb-10">การประชุมล่าสุด</h2>
+      <h2 class="text-header mb-5">การประชุมล่าสุด</h2>
       {
         latest3Meetings.map((meeting) => (
           <MeetingGist
@@ -33,7 +33,7 @@ const latest3Meetings = meetings.slice(0, 3);
           />
         ))
       }
-      <a class="btn btn-primary text-base/1 mt-10" href="/26">
+      <a class="btn btn-primary text-base/1 mt-5" href="/26">
         ดูรายงานการประชุมเพิ่มเติม
         <ExternalLink size={16} />
       </a>
