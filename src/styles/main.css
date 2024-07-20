@@ -21,7 +21,15 @@
 
 @layer components {
   .text-header {
-    @apply font-sans text-[24px] leading-1 font-bold;
+    @apply font-sans text-[24px] leading-1 font-bold text-balance;
+  }
+
+  .container {
+    @apply max-w-[1024px];
+  }
+
+  .btn {
+    @apply rounded-5;
   }
 }
 

@@ -1,9 +1,14 @@
 ---
 import Nav from "@/components/Nav.astro";
 import Layout from "@/layouts/Layout.astro";
+
+import meetings from "@/data/26/data.json";
+import { ExternalLink } from "lucide-astro";
+
+const latest3Meetings = meetings.slice(0, 3);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="สภาไคฟ์ | Saparchive">
   <div class="bg-yellow">
     <header
       class="flex flex-col justify-between gap-10 mx-auto p-20 pt-10 min-h-svh container"
@@ -15,5 +20,78 @@ import Layout from "@/layouts/Layout.astro";
       </div>
     </header>
   </div>
-  <main class="text-center mx-auto text-gray-700 p-4">LOL</main>
+  <main>
+    <section class="flex flex-col gap-10 mx-auto p-20 py-50 container">
+      <h2 class="text-header mb-10">การประชุมล่าสุด</h2>
+      {
+        latest3Meetings.map((meeting) => (
+          <article class="flex flex-col gap-5 rounded-5 border border-blue p-10">
+            <header class="flex items-center gap-10">
+              <h3 class="flex-1 text-header text-xl/1.5">
+                {meeting.id}
+                {meeting.category !== "หน้าหลัก" && (
+                  <>
+                    — <span>{meeting.no}</span>
+                  </>
+                )}
+              </h3>
+              <a
+                class="btn btn-primary btn-outline btn-sm text-sm/1 inline-flex items-center gap-5"
+                href={`/26/${meeting.id}`}
+              >
+                อ่านรายงานเต็ม
+                <ExternalLink size={16} />
+              </a>
+            </header>
+            {meeting.title.length > 0 && (
+							<hr class="border-t-blue border-dashed mt-5" />
+              <p
+                class:list={[
+                  "whitespace-pre-line text-sm/1.6 tracking-[0.1px]",
+                  { "preview-text": meeting.title.length > 2 },
+                ]}
+              >
+                <Fragment set:html={meeting.title.slice(0, 6).join("\n")} />
+              </p>
+            )}
+          </article>
+        ))
+      }
+      <a class="btn btn-primary text-base/1 mt-10" href={`/26`}>
+        ดูรายงานการประชุมสภาฯ ชุดที่ 26 (เศรษฐา)
+        <ExternalLink size={16} />
+      </a>
+    </section>
+    <div class="bg-blue text-gray">
+      <section class="flex flex-col gap-10 mx-auto p-20 py-50 container">
+        <h2 class="text-header mb-10">สภาไคฟ์คือ?</h2>
+        <p>
+          เป็นเว็บไซต์ที่จัดทำข้อมูลการประชุมสภาผู้แทนราษฎรเพื่อให้ผู้ใช้สามารถค้นหาข้อมูลด้วยคีย์เวิร์ดเฉพาะได้
+          อีกทั้งยังช่วยให้ Search Engine สามารถทำ index ได้อีกด้วย
+        </p>
+      </section>
+    </div>
+    <section class="flex flex-col gap-10 mx-auto p-20 py-50 container">
+      <h2 class="text-header mb-10">ทำไมต้อง “สภาไคฟ์”?</h2>
+      <p>
+        เว็บฐานข้อมูลการประชุมสภาแสดงผลข้อมูลด้วยการใช้เทคนิค AJAX
+        ซึ่งส่งผลให้ข้อมูลสามารถค้นหาด้วยคีย์เวิร์ดเฉพาะได้ยาก และ Search Engine
+        ไม่สามารถทำ Index ได้ (หมายความว่า ไม่สามารถค้นหาผ่าน Seach Engine อย่าง Google
+        ได้)
+      </p>
+      <p>
+        สภาไคฟ์แก้ปัญหานี้โดยการดึงข้อมูลหน้าเว็บ AJAX ของการประชุมนั้นโดยตรง
+        ผ่านการใช้รหัส id ของการบันทึกเอกสาร แล้วนำข้อมูลมาจัดลงใน Format ที่เหมาะสม
+        โดยจะดึงข้อมูลในวันเสาร์ เวลา 18:00 น.
+      </p>
+    </section>
+  </main>
 </Layout>
+
+<style>
+  .preview-text::after {
+    content: "";
+    height: calc(14px * 1.6 * 2); /* 2 lines */
+    @apply absolute inset-x-0 bottom-0 bg-gradient-to-t from-gray to-gray/0;
+  }
+</style>
