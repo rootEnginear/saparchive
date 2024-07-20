@@ -13,7 +13,7 @@ const { id, category, no, title } = Astro.props;
 
 <article class="flex flex-col gap-5 rounded-5 border border-blue p-10">
   {
-    title.length > 0 ? (
+    title.length > 2 ? (
       <>
         <h3 class="text-header text-xl/1.5">
           {id}
@@ -32,17 +32,19 @@ const { id, category, no, title } = Astro.props;
         >
           <Fragment set:html={title.slice(0, 6).join("\n")} />
         </p>
-        <a
-          class="absolute btn btn-primary btn-outline btn-sm text-sm/1 inline-flex items-center gap-5 bg-gray bottom-10 left-1/2 -translate-x-1/2"
-          href={`/26/${id}`}
-        >
-          อ่านรายงานเต็ม
-          <ExternalLink size={16} />
-        </a>
+        <div class="absolute bottom-10 inset-x-0">
+          <a
+            class="btn btn-primary btn-outline btn-sm flex items-center gap-5 w-fit mx-auto bg-gray text-sm/1"
+            href={`/26/${id}`}
+          >
+            อ่านบันทึกเต็ม
+            <ExternalLink size={16} />
+          </a>
+        </div>
       </>
     ) : (
-      <header class="flex items-center gap-10">
-        <h3 class="flex-1 text-header text-xl/1.5">
+      <>
+        <h3 class="text-header text-xl/1.5">
           {id}
           {category !== "หน้าหลัก" && (
             <>
@@ -50,14 +52,20 @@ const { id, category, no, title } = Astro.props;
             </>
           )}
         </h3>
+        <hr class="border-t-blue border-dashed" />
+        {title.length > 0 && (
+          <p class:list={["whitespace-pre-line text-sm/1.6 tracking-[0.1px]"]}>
+            <Fragment set:html={title.join("\n")} />
+          </p>
+        )}
         <a
-          class="btn btn-primary btn-outline btn-sm text-sm/1 inline-flex items-center gap-5"
+          class="btn btn-primary btn-outline btn-sm text-sm/1 inline-flex items-center gap-5 mx-auto [hr+&]:mt-5"
           href={`/26/${id}`}
         >
-          อ่านรายงานเต็ม
+          อ่านบันทึกเต็ม
           <ExternalLink size={16} />
         </a>
-      </header>
+      </>
     )
   }
 </article>

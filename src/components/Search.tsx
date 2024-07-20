@@ -2,13 +2,13 @@ import type { Meeting } from "@/types/meetings";
 import {
   component$,
   noSerialize,
-  Slot,
   useComputed$,
   useSignal,
   useVisibleTask$,
   type NoSerialize,
 } from "@builder.io/qwik";
 import Fuse, { type RangeTuple } from "fuse.js";
+import { SearchIcon } from "lucide-qwik";
 
 const highlightStringFromIndices = (
   string: String,
@@ -25,13 +25,19 @@ const highlightStringFromIndices = (
   return result;
 };
 
-export const Search = component$(() => {
+interface SearchProps {
+  listUrl: string;
+  indexUrl: string;
+  class?: string;
+}
+
+export const Search = component$<SearchProps>((props) => {
   const fuseInstance = useSignal<NoSerialize<Fuse<Meeting>>>(undefined);
 
   useVisibleTask$(
     async () => {
-      const meetings = (await fetch("/data/26.json").then((r) => r.json())) as Meeting[];
-      const meetingsIndex = await fetch("/data/26.index.json").then((r) => r.json());
+      const meetings = (await fetch(props.listUrl).then((r) => r.json())) as Meeting[];
+      const meetingsIndex = await fetch(props.indexUrl).then((r) => r.json());
       const fuse = new Fuse(
         meetings,
         {
@@ -60,8 +66,8 @@ export const Search = component$(() => {
   });
 
   return (
-    <div class="w-full max-w-[640px] mx-auto">
-      <label class="input input-bordered input-primary flex items-center gap-2">
+    <div class={`w-full mx-auto ${props.class ?? ""}`}>
+      <label class="peer input input-bordered input-primary flex items-center gap-2">
         <input
           type="text"
           class="grow"
@@ -75,41 +81,39 @@ export const Search = component$(() => {
           disabled={fuseInstance.value === undefined}
         />
         {fuseInstance.value ? (
-          <Slot />
+          <SearchIcon size={20} />
         ) : (
           <span class="loading loading-spinner loading-sm"></span>
         )}
       </label>
-      {query.value.trim() && (
-        <ul class="absolute menu bg-gray rounded-10 w-full mt-5 shadow-sm z-10 max-h-[30vh] flex-nowrap overflow-y-auto">
-          {result.value.length > 0 ? (
-            result.value.map(({ item, matches }) => (
-              <li key={item.id}>
-                <a
-                  class="flex flex-col items-start gap-[7px] text-pretty p-10"
-                  href={`/26/${item.id}`}
-                >
-                  <span
-                    class="text-blue/40 [&_mark]:bg-transparent [&_mark]:font-bold [&_mark]:text-blue text-sm/1.5"
-                    dangerouslySetInnerHTML={matches
-                      ?.map((match) =>
-                        highlightStringFromIndices(match.value ?? "", match.indices)
-                      )
-                      .join(" / ")}
-                  />
-                  <span class="bg-blue text-gray font-sans text-xs/1.5 px-5 p-1 w-full rounded-[3px]">
-                    {item.id} - {item.no}
-                  </span>
-                </a>
-              </li>
-            ))
-          ) : (
-            <li class="disabled">
-              <span class="p-10">ไม่พบข้อมูล</span>
+      <ul class="hidden peer-focus-within:flex absolute menu bg-gray rounded-10 w-full mt-5 shadow-sm z-10 max-h-[30vh] flex-nowrap overflow-y-auto">
+        {result.value.length > 0 ? (
+          result.value.map(({ item, matches }) => (
+            <li key={item.id}>
+              <a
+                class="flex flex-col items-start gap-[7px] text-pretty p-10"
+                href={`/26/${item.id}`}
+              >
+                <span
+                  class="text-blue/40 [&_mark]:bg-transparent [&_mark]:font-bold [&_mark]:text-blue text-sm/1.5"
+                  dangerouslySetInnerHTML={matches
+                    ?.map((match) =>
+                      highlightStringFromIndices(match.value ?? "", match.indices)
+                    )
+                    .join(" / ")}
+                />
+                <span class="bg-blue text-gray font-sans text-xs/1.5 px-5 p-1 w-full rounded-[3px]">
+                  {item.id} - {item.no}
+                </span>
+              </a>
             </li>
-          )}
-        </ul>
-      )}
+          ))
+        ) : (
+          <li class="disabled">
+            <span class="p-10">ไม่พบข้อมูล</span>
+          </li>
+        )}
+      </ul>
     </div>
   );
 });

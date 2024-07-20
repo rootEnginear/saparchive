@@ -1,17 +1,34 @@
 ---
+import MeetingGist from "@/components/MeetingGist.astro";
+import { Search } from "@/components/Search";
 import meetings from "@/data/26.json";
 import Layout from "@/layouts/Layout.astro";
+import { Landmark } from "lucide-astro";
 ---
 
 <Layout title="26">
-  <h1>26</h1>
-  <ul>
+  <div class="bg-blue text-gray sticky top-0 z-50">
+    <nav class="flex items-center gap-10 mx-auto px-20 h-50 container">
+      <a class="btn btn-primary btn-sm text-base/1" href="/">
+        <Landmark size={16} />
+        กลับหน้าหลัก
+      </a>
+    </nav>
+  </div>
+  <section class="flex flex-col gap-10 mx-auto p-20 pt-[40px] pb-50 container">
+    <h2 class="text-header">บันทึกการประชุมสภาผู้แทนราษฎร ชุดที่ 26</h2>
+    <p class="-mt-5">นายกรัฐมนตรี: เศรษฐา ทวีสิน</p>
+    <Search listUrl="/data/26.json" indexUrl="/data/26.index.json" />
+    <hr class="border-t-blue border-dashed my-5" />
     {
-      meetings.map(({ id }) => (
-        <li>
-          <a href={`/26/${id}`}>{id}</a>
-        </li>
+      meetings.map((meeting) => (
+        <MeetingGist
+          id={meeting.id}
+          category={meeting.category}
+          no={meeting.no}
+          title={meeting.title}
+        />
       ))
     }
-  </ul>
+  </section>
 </Layout>
