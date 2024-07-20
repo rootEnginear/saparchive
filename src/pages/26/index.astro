@@ -1,0 +1,17 @@
+---
+import meetings from "@/data/26/data.json";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="26">
+  <h1>26</h1>
+  <ul>
+    {
+      meetings.map(({ id }) => (
+        <li>
+          <a href={`/26/${id}`}>{id}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

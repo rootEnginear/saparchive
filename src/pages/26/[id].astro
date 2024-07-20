@@ -1,0 +1,18 @@
+---
+import meetings from "@/data/26/data.json";
+import Layout from "@/layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return meetings.map((meeting) => ({
+    params: { id: meeting.id },
+    props: meeting,
+  }));
+}
+
+const meeting = Astro.props;
+---
+
+<Layout title={meeting.id}>
+  <h1>{meeting.id}</h1>
+  <p>{meeting.title.join("\n")}</p>
+</Layout>
