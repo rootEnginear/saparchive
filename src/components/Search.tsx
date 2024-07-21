@@ -28,7 +28,6 @@ const highlightStringFromIndices = (
 interface SearchProps {
   listUrl: string;
   indexUrl: string;
-  class?: string;
 }
 
 export const Search = component$<SearchProps>((props) => {
@@ -66,8 +65,9 @@ export const Search = component$<SearchProps>((props) => {
   });
 
   return (
-    <div class={`w-full mx-auto ${props.class ?? ""}`}>
+    <div>
       <label class="peer input input-bordered input-primary flex items-center gap-2">
+        <span class="sr-only">ค้นหา</span>
         <input
           type="text"
           class="grow"

@@ -1,7 +1,7 @@
 ---
+import { LandingSearch } from "@/components/LandingSearch";
 import MeetingGist from "@/components/MeetingGist.astro";
 import Nav from "@/components/Nav.astro";
-import { Search } from "@/components/Search.tsx";
 import meetings from "@/data/26.json";
 import Layout from "@/layouts/Layout.astro";
 import { ExternalLink } from "lucide-astro";
@@ -15,11 +15,9 @@ const latest3Meetings = meetings.slice(0, 3);
       class="flex flex-col justify-between gap-10 mx-auto p-20 pt-10 min-h-svh container"
     >
       <Nav />
-      <Search
-        class="max-w-[640px]"
-        listUrl="/data/26.json"
-        indexUrl="/data/26.index.json"
-      />
+      <div class="w-full max-w-[640px] mx-auto">
+        <LandingSearch />
+      </div>
       <div class="flex flex-col gap-10">
         <h1 class="text-header text-[48px]">Saparchive</h1>
         <p class="text-header font-normal">สภาไคฟ์</p>
