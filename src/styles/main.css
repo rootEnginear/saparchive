@@ -49,7 +49,7 @@
   }
 
   .btn {
-    @apply rounded-5 font-normal;
+    @apply rounded-5 font-bold;
   }
 }
 
