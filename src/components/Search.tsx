@@ -76,7 +76,7 @@ export const Search = component$<SearchProps>((props) => {
 
   const result = useComputed$(() => {
     const trimmedResult = query.value.trim();
-    if (trimmedResult.length < 2) return [];
+    if (trimmedResult.length < 3) return [];
     return fuseInstance.value?.search(query.value.trim()) ?? [];
   });
 
@@ -99,37 +99,39 @@ export const Search = component$<SearchProps>((props) => {
         {fuseInstance.value ? (
           <SearchIcon size={20} />
         ) : (
-          <span class="loading loading-spinner loading-sm"></span>
+          <span class="loading loading-spinner loading-sm" />
         )}
       </label>
-      <ul class="hidden group-focus-within:flex absolute menu bg-gray rounded-10 w-full mt-5 shadow-sm z-10 max-h-[30vh] flex-nowrap overflow-y-auto">
-        {result.value.length > 0 ? (
-          result.value.map(({ item, matches }) => (
-            <li key={item.id}>
-              <a
-                class="flex flex-col items-start gap-[7px] text-pretty p-10"
-                href={`/${props.era}/${item.id}`}
-              >
-                <span
-                  class="text-blue/40 [&_mark]:bg-transparent [&_mark]:font-bold [&_mark]:text-blue text-sm/1.5"
-                  dangerouslySetInnerHTML={matches
-                    ?.map((match) =>
-                      highlightStringFromIndices(match.value ?? "", match.indices)
-                    )
-                    .join(" / ")}
-                />
-                <span class="bg-blue text-gray font-sans text-xs/1.5 px-5 p-1 w-full rounded-[3px]">
-                  {item.id} - {item.no}
-                </span>
-              </a>
+      {query.value.trim().length > 2 && (
+        <ul class="hidden group-focus-within:flex absolute menu bg-gray rounded-10 w-full mt-5 shadow-sm z-10 max-h-[30vh] flex-nowrap overflow-y-auto">
+          {result.value.length > 0 ? (
+            result.value.map(({ item, matches }) => (
+              <li key={item.id}>
+                <a
+                  class="flex flex-col items-start gap-[7px] text-pretty p-10"
+                  href={`/${props.era}/${item.id}`}
+                >
+                  <span
+                    class="text-blue/40 [&_mark]:bg-transparent [&_mark]:font-bold [&_mark]:text-blue text-sm/1.5"
+                    dangerouslySetInnerHTML={matches
+                      ?.map((match) =>
+                        highlightStringFromIndices(match.value ?? "", match.indices)
+                      )
+                      .join(" / ")}
+                  />
+                  <span class="bg-blue text-gray font-sans text-xs/1.5 px-5 p-1 w-full rounded-[3px]">
+                    {item.id} - {item.no}
+                  </span>
+                </a>
+              </li>
+            ))
+          ) : (
+            <li class="disabled">
+              <span class="p-10">ไม่พบข้อมูล</span>
             </li>
-          ))
-        ) : (
-          <li class="disabled">
-            <span class="p-10">ไม่พบข้อมูล</span>
-          </li>
-        )}
-      </ul>
+          )}
+        </ul>
+      )}
     </div>
   );
 });
