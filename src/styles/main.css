@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Sao Chingcha";
+  src: url(./fonts/SaoChingcha-Regular.otf) format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sao Chingcha";
+  src: url(./fonts/SaoChingcha-Bold.otf) format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 
 @layer base {
@@ -33,7 +49,7 @@
   }
 
   .btn {
-    @apply rounded-5;
+    @apply rounded-5 font-normal;
   }
 }
 
