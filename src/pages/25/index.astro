@@ -18,7 +18,7 @@ import { Landmark } from "lucide-astro";
   <section class="flex flex-col gap-10 mx-auto p-20 pt-[40px] pb-50 container">
     <h2 class="text-header">บันทึกการประชุมสภาผู้แทนราษฎร ชุดที่ 25</h2>
     <p class="-mt-5">นายกรัฐมนตรี: ประยุทธ์ จันทร์โอชา</p>
-    <Search listUrl="/data/25.json" indexUrl="/data/25.index.json" />
+    <Search era={25} />
     <hr class="border-t-blue border-dashed my-5" />
     {
       meetings.map((meeting) => (

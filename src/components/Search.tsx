@@ -10,6 +10,19 @@ import {
 import Fuse, { type RangeTuple } from "fuse.js";
 import { SearchIcon } from "lucide-qwik";
 
+const DATASETS = {
+  25: {
+    listUrl: "/data/25.json",
+    indexUrl: "/data/25.index.json",
+  },
+  26: {
+    listUrl: "/data/26.json",
+    indexUrl: "/data/26.index.json",
+  },
+} as const;
+
+export type AVAILABLE_DATASETS = keyof typeof DATASETS;
+
 const highlightStringFromIndices = (
   string: String,
   readonlyIndices: readonly RangeTuple[]
@@ -26,8 +39,7 @@ const highlightStringFromIndices = (
 };
 
 interface SearchProps {
-  listUrl: string;
-  indexUrl: string;
+  era: keyof typeof DATASETS;
 }
 
 export const Search = component$<SearchProps>((props) => {
@@ -35,8 +47,12 @@ export const Search = component$<SearchProps>((props) => {
 
   useVisibleTask$(
     async () => {
-      const meetings = (await fetch(props.listUrl).then((r) => r.json())) as Meeting[];
-      const meetingsIndex = await fetch(props.indexUrl).then((r) => r.json());
+      const meetings = (await fetch(DATASETS[props.era].listUrl).then((r) =>
+        r.json()
+      )) as Meeting[];
+      const meetingsIndex = await fetch(DATASETS[props.era].indexUrl).then((r) =>
+        r.json()
+      );
       const fuse = new Fuse(
         meetings,
         {
@@ -65,8 +81,8 @@ export const Search = component$<SearchProps>((props) => {
   });
 
   return (
-    <div>
-      <label class="peer input input-bordered input-primary flex items-center gap-2">
+    <div class="group">
+      <label class="input input-bordered input-primary flex items-center gap-2">
         <span class="sr-only">ค้นหา</span>
         <input
           type="text"
@@ -86,13 +102,13 @@ export const Search = component$<SearchProps>((props) => {
           <span class="loading loading-spinner loading-sm"></span>
         )}
       </label>
-      <ul class="hidden peer-focus-within:flex absolute menu bg-gray rounded-10 w-full mt-5 shadow-sm z-10 max-h-[30vh] flex-nowrap overflow-y-auto">
+      <ul class="hidden group-focus-within:flex absolute menu bg-gray rounded-10 w-full mt-5 shadow-sm z-10 max-h-[30vh] flex-nowrap overflow-y-auto">
         {result.value.length > 0 ? (
           result.value.map(({ item, matches }) => (
             <li key={item.id}>
               <a
                 class="flex flex-col items-start gap-[7px] text-pretty p-10"
-                href={`/26/${item.id}`}
+                href={`/${props.era}/${item.id}`}
               >
                 <span
                   class="text-blue/40 [&_mark]:bg-transparent [&_mark]:font-bold [&_mark]:text-blue text-sm/1.5"

@@ -1,27 +1,13 @@
 import { component$, useSignal } from "@builder.io/qwik";
+import type { AVAILABLE_DATASETS } from "./Search";
 import { Search } from "./Search";
 
-const DATASETS = {
-  25: {
-    listUrl: "/data/25.json",
-    indexUrl: "/data/25.index.json",
-  },
-  26: {
-    listUrl: "/data/26.json",
-    indexUrl: "/data/26.index.json",
-  },
-} as const;
-
 export const LandingSearch = component$(() => {
-  const currentDataset = useSignal<keyof typeof DATASETS>(26);
+  const currentDataset = useSignal<AVAILABLE_DATASETS>(26);
 
   return (
     <>
-      <Search
-        key={currentDataset.value}
-        listUrl={DATASETS[currentDataset.value].listUrl}
-        indexUrl={DATASETS[currentDataset.value].indexUrl}
-      />
+      <Search key={currentDataset.value} era={currentDataset.value} />
       <div class="flex items-center justify-end gap-10 pt-10">
         <strong class="text-sm/1.5">ค้นหาจาก</strong>
         <label class="label gap-5 p-0 cursor-pointer">
