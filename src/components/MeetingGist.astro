@@ -2,13 +2,14 @@
 import { ExternalLink } from "lucide-astro";
 
 interface Props {
+  era: number;
   id: string;
   category: string;
   no: string;
   title: string[];
 }
 
-const { id, category, no, title } = Astro.props;
+const { era, id, category, no, title } = Astro.props;
 ---
 
 <article class="flex flex-col gap-5 rounded-5 border border-blue p-10">
@@ -35,7 +36,7 @@ const { id, category, no, title } = Astro.props;
         <div class="absolute bottom-10 inset-x-0">
           <a
             class="btn btn-primary btn-outline btn-sm flex items-center gap-5 w-fit mx-auto bg-gray text-sm/1"
-            href={`/26/${id}`}
+            href={`/${era}/${id}`}
           >
             อ่านบันทึกเต็ม
             <ExternalLink size={16} />
@@ -60,7 +61,7 @@ const { id, category, no, title } = Astro.props;
         )}
         <a
           class="btn btn-primary btn-outline btn-sm text-sm/1 inline-flex items-center gap-5 mx-auto [hr+&]:mt-5"
-          href={`/26/${id}`}
+          href={`/${era}/${id}`}
         >
           อ่านบันทึกเต็ม
           <ExternalLink size={16} />
