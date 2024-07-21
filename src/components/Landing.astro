@@ -1,0 +1,19 @@
+---
+import { LandingSearch } from "@/components/LandingSearch";
+import Nav from "@/components/Nav.astro";
+---
+
+<div class="bg-yellow">
+  <header
+    class="flex flex-col justify-between gap-10 mx-auto p-20 pt-10 min-h-svh container"
+  >
+    <Nav />
+    <div class="w-full max-w-[640px] mx-auto">
+      <LandingSearch />
+    </div>
+    <div class="flex flex-col gap-10">
+      <h1 class="text-header text-[48px]">Saparchive</h1>
+      <p class="text-header font-normal">สภาไคฟ์</p>
+    </div>
+  </header>
+</div>
