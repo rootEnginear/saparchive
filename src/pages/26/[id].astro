@@ -48,7 +48,7 @@ const formattedCatg = meeting.category
     {
       meeting.score_summary_docs.length !== 0 && (
         <div class="flex flex-col text-sm/1.6">
-          <h2 class="text-header text-base/1.5 bg-blue text-gray px-10 rounded-3 mb-5">
+          <h2 class="text-header text-base/1.5 bg-blue text-gray px-[7px] rounded-3 mb-5">
             ใบประมวลผลการลงมติ (เช็คคนมา, ผลโหวตแต่ละเรื่อง)
           </h2>
           {meeting.score_summary_docs.map((m: string[] | string) =>
@@ -66,7 +66,7 @@ const formattedCatg = meeting.category
     {
       meeting.meeting_docs.length !== 0 && (
         <div class="flex flex-col text-sm/1.6">
-          <h2 class="text-header text-base/1.5 bg-blue text-gray px-10 rounded-3 mb-5">
+          <h2 class="text-header text-base/1.5 bg-blue text-gray px-[7px] rounded-3 mb-5">
             ข้อมูลการประชุม (บันทึกการประชุม)
           </h2>
           {meeting.meeting_docs.map(([t, l]: string[]) => (
