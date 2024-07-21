@@ -1,6 +1,7 @@
 ---
 import meetings from "@/data/26.json";
 import Layout from "@/layouts/Layout.astro";
+import { Landmark, ScrollText } from "lucide-astro";
 
 export function getStaticPaths() {
   return meetings.map((meeting) => ({
@@ -10,9 +11,80 @@ export function getStaticPaths() {
 }
 
 const meeting = Astro.props;
+
+const formattedCatg = meeting.category
+  .split(">")
+  .map((e) => e.trim())
+  .filter((e) => e)
+  .join(" › ");
 ---
 
 <Layout title={meeting.id}>
-  <h1>{meeting.id}</h1>
-  <p>{meeting.title.join("\n")}</p>
+  <div class="bg-blue text-gray sticky top-0 z-50">
+    <nav class="flex items-center gap-10 mx-auto px-20 h-50 container">
+      <a class="btn btn-primary btn-sm text-base/1" href="/26">
+        <Landmark size={16} />
+        ชุดที่ 26
+      </a>
+    </nav>
+  </div>
+  <section class="flex flex-col gap-10 mx-auto p-20 pt-[40px] pb-50 container">
+    <h1 class="text-header">
+      {meeting.id}
+      {
+        meeting.category !== "หน้าหลัก" && (
+          <>
+            — <span>{meeting.no}</span>
+          </>
+        )
+      }
+    </h1>
+    <p class="-mt-5 text-sm/1.5">{formattedCatg}</p>
+    <hr class="border-t-blue border-dashed" />
+    <p class:list={["whitespace-pre-line text-base/1.6 tracking-[0.1px]"]}>
+      <Fragment set:html={meeting.title.join("\n")} />
+    </p>
+    <hr class="border-t-blue border-dashed" />
+    {
+      meeting.score_summary_docs.length !== 0 && (
+        <div class="flex flex-col text-sm/1.6">
+          <h2 class="text-header text-base/1.5 bg-blue text-gray px-10 rounded-3 mb-5">
+            ใบประมวลผลการลงมติ (เช็คคนมา, ผลโหวตแต่ละเรื่อง)
+          </h2>
+          {meeting.score_summary_docs.map((m: string[] | string) =>
+            typeof m === "string" ? (
+              <strong class="block">{m}</strong>
+            ) : (
+              <a href={m[1]} target="_blank" rel="nofollow noopener noreferrer">
+                {m[0]}
+              </a>
+            )
+          )}
+        </div>
+      )
+    }
+    {
+      meeting.meeting_docs.length !== 0 && (
+        <div class="flex flex-col text-sm/1.6">
+          <h2 class="text-header text-base/1.5 bg-blue text-gray px-10 rounded-3 mb-5">
+            ข้อมูลการประชุม (บันทึกการประชุม)
+          </h2>
+          {meeting.meeting_docs.map(([t, l]: string[]) => (
+            <a href={l} target="_blank" rel="nofollow noopener noreferrer">
+              {t}
+            </a>
+          ))}
+        </div>
+      )
+    }
+    <a
+      class="btn btn-primary btn-outline btn-sm flex items-center gap-5 w-fit text-sm/1"
+      href={`https://msbis.parliament.go.th/ewtadmin/ewt/parliament_report/main_warehouse_detail.php?mid=${meeting.id}`}
+      target="_blank"
+      rel="nofollow noopener noreferrer"
+    >
+      ดูบันทึกต้นทาง
+      <ScrollText size={16} />
+    </a>
+  </section>
 </Layout>
