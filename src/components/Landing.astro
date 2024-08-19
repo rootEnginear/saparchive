@@ -4,6 +4,15 @@ import Nav from "@/components/Nav.astro";
 ---
 
 <div class="bg-yellow">
+  <img
+    class="absolute inset-0 w-full h-full object-cover object-center"
+    srcset="cover.webp, cover@2x.webp 2x"
+    src="cover.webp"
+    alt=""
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+  />
   <header
     class="flex flex-col justify-between gap-10 mx-auto p-20 pt-10 min-h-svh container"
   >
