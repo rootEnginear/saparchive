@@ -15,7 +15,7 @@ jobs:
       - name: PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
       - name: Build
         run: |
           pnpm i
@@ -23,6 +23,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAPARCHIVE_24D2B }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SAPARCHIVE_TH }}
           channelId: live
-          projectId: saparchive-24d2b
+          projectId: saparchive-th
