@@ -35,7 +35,7 @@ export const LandingSearch = component$(() => {
             }}
           />
           <span class="label-text text-xs/1.5">
-            ชุดที่ 26 <span class="hidden 2xs:inline">(887kb)</span>
+            ชุดที่ 26 <span class="hidden 2xs:inline">(1.2Mb)</span>
           </span>
         </label>
       </div>
